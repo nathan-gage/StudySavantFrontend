@@ -13,7 +13,7 @@ node_modules
 # next.js
 /.next/
 /out/
-
+embedded-client/.next/
 # production
 /build
 
