@@ -100,7 +100,7 @@ export default function Home() {
         )
       })}
 
-      <div className='flex flex-col items-center justify-center fixed bottom-0 w-full bg-white p-8'>
+      <div className='flex flex-col items-center justify-center fixed bottom-0 w-full bg-white p-2'>
         <div className='form-control'>
           <div className='input-group'>
             <input
