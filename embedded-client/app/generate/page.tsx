@@ -1,188 +1,85 @@
-'use client' // this is a client component 👈🏽
-import { useState, ChangeEvent } from 'react'
+"use client"
+import {useState} from 'react'
+import PlaneIcon from "@/app/generate/PlaneIcon";
 
-// const defaultData = [
-//   {
-//     role: 'user',
-//     message: 'Luke Skywalker',
-//   },
-//   {
-//     role: 'user',
-//     message:
-//       'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
-//   },
-//   {
-//     role: 'assistant',
-//     message: 'Loster',
-//   },
-//   {
-//     role: 'assistant',
-//     message: 'Andrew',
-//   },
-//   {
-//     role: 'assistant',
-//     message:
-//       'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
-//   },
-//   {
-//     role: 'assistant',
-//     message: 'Loster',
-//   },
-//   {
-//     role: 'assistant',
-//     message: 'Loster',
-//   },
-//   {
-//     role: 'user',
-//     message: 'Luke Skywalker',
-//   },
-//   {
-//     role: 'user',
-//     message:
-//       'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
-//   },
-
-//   {
-//     role: 'assistant',
-//     message: 'Loster',
-//   },
-//   {
-//     role: 'assistant',
-//     message: 'Loster',
-//   },
-// ]
-
-const testData = [
-  {
-    role: 'user',
-    message: 'Luke Skywalker',
-  },
-]
-
-const endpoint = 'http://localhost:3000/chat-textbook'
+interface Message {
+    role: string;
+    message: string;
+}
 
 export default function Home() {
-  const [data, setData] = useState([
-    {
-      role: 'user',
-      message: 'Luke Skywalker',
-    },
-  ])
+    const [messages, setMessages] = useState<Message[]>([]);
+    const [newMessage, setNewMessage] = useState('');
 
-  // for input
-  const [inputMessage, setInputMessage] = useState('')
+    //User submitted message
+    function submit(event: any) {
+        event.preventDefault();
+        console.log('submit', newMessage)
+        setMessages([...messages, {role: 'user', message: newMessage}]);
+        setNewMessage('');
+    }
 
-  // async function getData() {
-  //   const res = await fetch(endpoint)
-  //   // The return value is *not* serialized
-  //   // You can return Date, Map, Set, etc.
+    //User pressed action button
+    function send(prompt) {
+        const message = prompt.target.innerHTML
+        // @ts-ignore
+        setMessages([...Messages, {role: 'user', message: message}]);
+    }
 
-  //   // Recommendation: handle errors
-  //   if (!res.ok) {
-  //     // This will activate the closest `error.js` Error Boundary
-  //     throw new Error('Failed to fetch data')
-  //   }
+    return (
+        <main className='flex flex-col bg-white mb-8 relative'>
+            <div className='mb-24'>
+                {messages.map((item, index) => {
+                    return (
+                        <div
+                            key={index}
+                            className={[`chat ${
+                                item.role === 'user' ? 'chat-end' : 'chat-start'
+                            }  p-4`, 'pt-0']}
+                        >
+                            <div
+                                className={`chat-bubble ${
+                                    item.role === 'assistant' ? '' : 'bg-blue-500'
+                                }`}
+                            >
+                                {item.message}
+                            </div>
+                        </div>
+                    )
+                })}
+            </div>
 
-  //   return res.json()
-  // }
+            <div className='flex flex-col items-center justify-center bottom-0 w-full p-8 fixed mb-0'>
+                {messages.length === 0 &&
+                    <div className='m-2 flex-col items-center justify-center'>
+                        <button className='btn btn-sm m-auto mb-1 btn-outline' onClick={send}>Generate Flash Cards For
+                            Chapter 2
+                        </button>
+                        <button className='btn btn-sm m-auto mb-1 btn-outline'
+                                onClick={send.bind("Create an Notes for Chapter 10")}>Create an Notes for Chapter 10
+                        </button>
+                        <button className='btn btn-sm m-auto mb-1 btn-outline'
+                                onClick={send.bind("Create an Exam Review")}>Create an Exam Review
+                        </button>
+                    </div>
+                }
 
-  // async function postData(text: string) {
-  //   setData((prev) => [...prev, { role: 'assistant', message: text }])
+                <div className='form-control'>
+                    <div className='input-group'>
+                        <form onSubmit={submit}>
+                            <input
+                                type='text'
+                                placeholder='Send a message…'
+                                value={newMessage}
+                                className='input input-bordered w-[90vw] text-black border-black placeholder-black'
+                                onChange={(e) => setNewMessage(e.target.value)}
+                            />
 
-  //   const res = await fetch(endpoint, {
-  //     body: JSON.stringify(data),
-  //     // headers: {
-  //     //   'Authorization': 'Basic ' + base64.encode("APIKEY:X"),
-  //     //   'Content-Type': 'application/json',
-  //     // },
-  //     method: 'POST',
-  //   })
-  // }
-
-  // function submit() {
-  //   const newMessage = { role: 'assistant', message: message }
-  //   setData((prev) => [...prev, newMessage])
-  //   console.log('message:', newMessage)
-  // }
-  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setInputMessage(event.target.value)
-  }
-
-  const handleClick = (event: any) => {
-    event.preventDefault()
-    // 👇 "message" stores input field value
-
-    const newMessage = { role: 'assistant', message: inputMessage }
-    setData((prevState: any) => [...prevState, newMessage])
-    setInputMessage('')
-    console.log('message', data)
-  }
-
-  return (
-    <main className='flex flex-col bg-white mb-8 relative'>
-      <div className='mb-24'>
-        {data &&
-          data.map((item: any, index: any) => {
-            return (
-              <div
-                key={index}
-                className={`chat ${
-                  item.role === 'user' ? 'chat-end' : 'chat-start'
-                }  p-4`}
-              >
-                <div
-                  className={`chat-bubble ${
-                    item.role === 'assistant' ? '' : 'bg-blue-500'
-                  }`}
-                >
-                  {item.message}
+                        </form>
+                        <PlaneIcon></PlaneIcon>
+                    </div>
                 </div>
-              </div>
-            )
-          })}
-      </div>
-
-      <div className='flex flex-col items-center justify-center bottom-0 w-full px-2 fixed mb-0 bg-white'>
-        <div className='m-2 w-[90vw]'>
-          <button className='btn btn-active btn-sm btn-outline'>
-            Generate Flash Cards For Chapter 2
-          </button>
-          <button className='btn btn-sm ml-4 btn-outline'>
-            Create an Exam Review for Chapter 10
-          </button>
-          <button className='btn btn-sm ml-4 btn-outline'>
-            Create an Notes for Chapter 10
-          </button>
-        </div>
-
-        <form className='form-control'>
-          <div className='input-group'>
-            <input
-              type='text'
-              placeholder='Send a message…'
-              className='input input-bordered w-[90vw]'
-              onChange={onChange}
-              value={inputMessage}
-            />
-            <button className='btn btn-square' onClick={handleClick}>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                className='h-6 w-6'
-                fill='none'
-                viewBox='0 0 24 24'
-                stroke='currentColor'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth='2'
-                  d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
-                />
-              </svg>
-            </button>
-          </div>
-        </form>
-      </div>
-    </main>
-  )
+            </div>
+        </main>
+    )
 }
