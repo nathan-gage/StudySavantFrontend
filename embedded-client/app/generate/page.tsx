@@ -1,3 +1,5 @@
+'use client' // this is a client component 👈🏽
+
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 
@@ -69,14 +71,12 @@ const defaultData = [
 ]
 
 export default function Home() {
-
-  const [data, setData] = useState(defaultData);
+  const [data, setData] = useState(defaultData)
 
   function submit(text: string) {
-    setData(...data, {role: 'assistant', message: text});
+    setData([...data, { role: 'assistant', message: text }])
   }
 
-  
   return (
     <main className='flex flex-col bg-white mb-8 relative'>
       <div className='mb-24'>
@@ -115,9 +115,15 @@ export default function Home() {
       <div className='flex flex-col items-center justify-center bottom-0 w-full p-8 fixed mb-0'>
         <div className='m-2 w-[90vw]'>
           {/* <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48"><path d="M480 1016 360 896H180q-24 0-42-18.5T120 836V236q0-24 18-42t42-18h600q23 0 41.5 18t18.5 42v600q0 23-18.5 41.5T780 896H600l-120 120ZM180 836h204l96 96 96-96h204V236H180v600Zm0-600v600-600Zm297.028 522Q493 758 504 746.972q11-11.028 11-27T503.972 693q-11.028-11-27-11T450 693.028q-11 11.028-11 27T450.028 747q11.028 11 27 11ZM501 610q0-31 10-50.5t34.721-44.221Q579 482 592 456.5t13-53.5q0-53-34-84t-91.523-31q-51.866 0-88.171 24.5Q355 337 338 380l53 22q14-28 36.2-42.5Q449.4 345 479 345q32 0 50.5 16t18.5 44.098Q548 425 537 443.5T500 487q-37 35-46.5 60t-9.5 63h57Z"/></svg> */}
-          <button className='btn btn-active btn-sm btn-outline'>Generate Flash Cards For Chapter 2  </button>
-          <button className='btn btn-sm ml-4 btn-outline'>Create an Exam Review for Chapter 10</button>
-          <button className='btn btn-sm ml-4 btn-outline'>Create an Notes for Chapter 10</button>
+          <button className='btn btn-active btn-sm btn-outline'>
+            Generate Flash Cards For Chapter 2{' '}
+          </button>
+          <button className='btn btn-sm ml-4 btn-outline'>
+            Create an Exam Review for Chapter 10
+          </button>
+          <button className='btn btn-sm ml-4 btn-outline'>
+            Create an Notes for Chapter 10
+          </button>
         </div>
 
         <div className='form-control'>
@@ -127,7 +133,7 @@ export default function Home() {
               placeholder='Send a message…'
               className='input input-bordered w-[90vw]'
             />
-            <button className='btn btn-square' onSubmit={()=>submit("TEST")}>
+            <button className='btn btn-square' onSubmit={() => submit('TEST')}>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 className='h-6 w-6'
