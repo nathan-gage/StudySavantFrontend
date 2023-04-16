@@ -61,7 +61,7 @@ const testData = [
 
 const endpoint = 'http://localhost:3000/chat-textbook'
 
-export default async function Home() {
+export default function Home() {
   const [data, setData] = useState([
     {
       role: 'user',
@@ -108,12 +108,14 @@ export default async function Home() {
     setInputMessage(event.target.value)
   }
 
-  const handleClick = () => {
+  const handleClick = (event: any) => {
+    event.preventDefault()
     // 👇 "message" stores input field value
 
     const newMessage = { role: 'assistant', message: inputMessage }
-    setData((prevState) => [...prevState, newMessage])
-    // console.log('message', data)
+    setData((prevState: any) => [...prevState, newMessage])
+    setInputMessage('')
+    console.log('message', data)
   }
 
   return (
@@ -162,7 +164,7 @@ export default async function Home() {
               onChange={onChange}
               value={inputMessage}
             />
-            <button className='btn btn-square' type='submit'>
+            <button className='btn btn-square' onClick={handleClick}>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 className='h-6 w-6'
