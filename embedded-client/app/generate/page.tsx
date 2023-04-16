@@ -106,6 +106,12 @@ export default function Home() {
           <button className='btn'>Button</button>
           <button className='btn'>Button</button>
         </div>
+
+        <div className='flex flex-row m-2 gap-x-2'>
+          <span className='badge badge-lg'>Generate Flash Cards</span>
+          <span className='badge'>Badge</span>
+          <span className='badge'>Badge</span>
+        </div>
         <div className='form-control'>
           <div className='input-group'>
             <input
